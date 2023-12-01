@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExtendedCalibrationValueReader {
 	private static String INPUT_PATH = "./res/aoc_day01_input.txt";
+	private static Map<String, String> NUMBER_MAPPING = createNumberMapping();
 	
 	private ExtendedCalibrationValueReader() {}
 	
@@ -15,7 +18,6 @@ public class ExtendedCalibrationValueReader {
 		int sum = 0;
 		
 		try (BufferedReader br = Files.newBufferedReader(Paths.get(INPUT_PATH)) ) {
-			
 			while ((line = br.readLine()) != null) {
 				sum += getTwoDigitValue(transformInputString(line));
 			}
@@ -34,42 +36,20 @@ public class ExtendedCalibrationValueReader {
 			if (isNumeric(input.substring(i, i + 1))) {
 				transformedInput += input.substring(i, i + 1);
 			} else {
-				try {
-					if (i + 3 <= input.length() && input.substring(i, i + 3).equals("one")) {
-						transformedInput += "1";
-						i += 1;
-					} else if (i + 3 <= input.length() && input.substring(i, i + 3).equals("two")) {
-						transformedInput += "2";
-						i += 1;
-					} else if (i + 5 <= input.length() && input.substring(i, i + 5).equals("three")) {
-						transformedInput += "3";
-						i += 3;
-					} else if (i + 4 <= input.length() && input.substring(i, i + 4).equals("four")) {
-						transformedInput += "4";
-						i += 2;
-					} else if (i + 4 <= input.length() && input.substring(i, i + 4).equals("five")) {
-						transformedInput += "5";
-						i += 2;
-					} else if (i + 3 <= input.length() && input.substring(i, i + 3).equals("six")) {
-						transformedInput += "6";
-						i += 1;
-					} else if (i + 5 <= input.length() && input.substring(i, i + 5).equals("seven")) {
-						transformedInput += "7";
-						i += 3;
-					} else if (i + 5 <= input.length() && input.substring(i, i + 5).equals("eight")) {
-						transformedInput += "8";
-						i += 3;
-					} else if (i + 4 <= input.length() && input.substring(i, i + 4).equals("nine")) {
-						transformedInput += "9";
-						i += 2;
+				for (String key : NUMBER_MAPPING.keySet()) {
+					try {
+						if (i + key.length() <= input.length() &&
+								input.substring(i, i + key.length()).equals(key)) {
+							transformedInput += NUMBER_MAPPING.get(key);
+							i += key.length() - 2;
+						}
+						
+					} catch (StringIndexOutOfBoundsException e) {
+						System.err.println("Error occurred during String transformation.");
 					}
-					
-				} catch (StringIndexOutOfBoundsException e) {
-					System.err.println("Error occurred during String transformation.");
 				}
 			}
 		}
-		
 		return transformedInput;
 	}
 	
@@ -81,6 +61,20 @@ public class ExtendedCalibrationValueReader {
 		} else {
 			return 0;
 		}
+	}
+	
+	private static Map<String, String> createNumberMapping() {
+		Map<String, String> mapping = new HashMap<>();
+		mapping.put("one", "1");
+		mapping.put("two", "2");
+		mapping.put("three", "3");
+		mapping.put("four", "4");
+		mapping.put("five", "5");
+		mapping.put("six", "6");
+		mapping.put("seven", "7");
+		mapping.put("eight", "8");
+		mapping.put("nine", "9");
+		return mapping;
 	}
 	
 	private static boolean isNumeric(String input) {
