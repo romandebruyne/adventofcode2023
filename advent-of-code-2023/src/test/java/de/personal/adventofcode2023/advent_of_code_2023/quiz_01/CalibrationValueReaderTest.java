@@ -26,12 +26,4 @@ public class CalibrationValueReaderTest {
 		Assertions.assertEquals(15, CalibrationValueReader.getNumericValue("a1b2c3d4e5f"));
 		Assertions.assertEquals(77, CalibrationValueReader.getNumericValue("treb7uchet"));
 	}
-	
-	@Test
-	public void testSomething() {
-		String one = "1";
-		String two = "2";
-		System.out.println(one + two);
-	}
-	
 }
