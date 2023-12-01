@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.advent_of_code_2023.quiz_02;
+package de.personal.adventofcode2023.day01.quiz02;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

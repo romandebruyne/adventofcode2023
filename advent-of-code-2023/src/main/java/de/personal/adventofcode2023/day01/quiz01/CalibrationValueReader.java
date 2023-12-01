@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.advent_of_code_2023.quiz_01;
+package de.personal.adventofcode2023.day01.quiz01;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,12 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalibrationValueReader {
+	private static String INPUT_PATH = "./res/aoc_day01_input.txt";
 	
-	private static String INPUT_PATH = "./res/aoc_quiz_01_input.txt";
-	
-	private CalibrationValueReader() {
-		
-	}
+	private CalibrationValueReader() {}
 	
 	public static int getCalibrationValue() {
 		String line;

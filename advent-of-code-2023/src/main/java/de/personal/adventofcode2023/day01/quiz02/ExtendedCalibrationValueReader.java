@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.advent_of_code_2023.quiz_02;
+package de.personal.adventofcode2023.day01.quiz02;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,11 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ExtendedCalibrationValueReader {
-	private static String INPUT_PATH = "./res/aoc_quiz_01_input.txt";
+	private static String INPUT_PATH = "./res/aoc_day01_input.txt";
 	
-	private ExtendedCalibrationValueReader() {
-		
-	}
+	private ExtendedCalibrationValueReader() {}
 	
 	public static int getCalibrationValue() {
 		String line;
@@ -33,35 +31,35 @@ public class ExtendedCalibrationValueReader {
 		String transformedInput = "";
 		
 		for (int i = 0; i < input.length(); i++) {
-			if (isNumeric(input.substring(i, i+1))) {
-				transformedInput += input.substring(i, i+1);
+			if (isNumeric(input.substring(i, i + 1))) {
+				transformedInput += input.substring(i, i + 1);
 			} else {
 				try {
-					if (i+3 <= input.length() && input.substring(i, i+3).equals("one")) {
+					if (i + 3 <= input.length() && input.substring(i, i + 3).equals("one")) {
 						transformedInput += "1";
 						i += 1;
-					} else if (i+3 <= input.length() && input.substring(i, i+3).equals("two")) {
+					} else if (i + 3 <= input.length() && input.substring(i, i + 3).equals("two")) {
 						transformedInput += "2";
 						i += 1;
-					} else if (i+5 <= input.length() && input.substring(i, i+5).equals("three")) {
+					} else if (i + 5 <= input.length() && input.substring(i, i + 5).equals("three")) {
 						transformedInput += "3";
 						i += 3;
-					} else if (i+4 <= input.length() && input.substring(i, i+4).equals("four")) {
+					} else if (i + 4 <= input.length() && input.substring(i, i + 4).equals("four")) {
 						transformedInput += "4";
 						i += 2;
-					} else if (i+4 <= input.length() && input.substring(i, i+4).equals("five")) {
+					} else if (i + 4 <= input.length() && input.substring(i, i + 4).equals("five")) {
 						transformedInput += "5";
 						i += 2;
-					} else if (i+3 <= input.length() && input.substring(i, i+3).equals("six")) {
+					} else if (i + 3 <= input.length() && input.substring(i, i + 3).equals("six")) {
 						transformedInput += "6";
 						i += 1;
-					} else if (i+5 <= input.length() && input.substring(i, i+5).equals("seven")) {
+					} else if (i + 5 <= input.length() && input.substring(i, i + 5).equals("seven")) {
 						transformedInput += "7";
 						i += 3;
-					} else if (i+5 <= input.length() && input.substring(i, i+5).equals("eight")) {
+					} else if (i + 5 <= input.length() && input.substring(i, i + 5).equals("eight")) {
 						transformedInput += "8";
 						i += 3;
-					} else if (i+4 <= input.length() && input.substring(i, i+4).equals("nine")) {
+					} else if (i + 4 <= input.length() && input.substring(i, i + 4).equals("nine")) {
 						transformedInput += "9";
 						i += 2;
 					}
