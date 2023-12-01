@@ -17,27 +17,12 @@ public class CalibrationValueReader {
 	
 	public static int getCalibrationValue() {
 		String line;
-		String[] lineArray;
-		List<Integer> numbers = new ArrayList<>();
 		int sum = 0;
 		
 		try (BufferedReader br = Files.newBufferedReader(Paths.get(INPUT_PATH)) ) {
 			
 			while ((line = br.readLine()) != null) {
-				lineArray = line.split("");
-				
-				for (int i = 0; i < lineArray.length; i++) {
-					if (isNumeric(lineArray[i])) {
-						numbers.add(Integer.parseInt(lineArray[i]));
-					}
-				}
-				
-				if (!numbers.isEmpty()) {
-					sum += numbers.get(0);
-					sum += numbers.get(numbers.size() - 1);
-				}
-				
-				numbers.clear();					
+				sum += getNumericValue(line);
 			}
 			
 		} catch (IOException e) {
@@ -45,6 +30,26 @@ public class CalibrationValueReader {
 		}
 		
 		return sum;
+	}
+	
+	public static int getNumericValue(String input) {
+		int numericValue;
+		String[] inputArray = input.split("");
+		List<String> values = new ArrayList<>();
+		
+		for (int i = 0; i < inputArray.length; i++) {
+			if (isNumeric(inputArray[i])) {
+				values.add(inputArray[i]);
+			}
+		}
+		
+		if (!values.isEmpty()) {
+			numericValue = Integer.parseInt(values.get(0) + values.get(values.size() - 1));
+		} else {
+			numericValue = 0;
+		}
+		
+		return numericValue;
 	}
 	
 	private static boolean isNumeric(String input) {
