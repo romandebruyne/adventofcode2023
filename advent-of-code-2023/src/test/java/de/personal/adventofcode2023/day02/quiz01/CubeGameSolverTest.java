@@ -29,7 +29,7 @@ public class CubeGameSolverTest {
 	
 	@Test
 	@DisplayName("Get game ID")
-	public void getGameId() {
+	public void testGetGameId() {
 		Assertions.assertEquals(1, this.cgs.getGameId("Game 1"));
 		Assertions.assertEquals(123234, this.cgs.getGameId("Game 123234"));
 	}

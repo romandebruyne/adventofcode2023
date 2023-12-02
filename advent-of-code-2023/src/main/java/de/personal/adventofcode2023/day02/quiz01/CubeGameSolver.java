@@ -109,7 +109,6 @@ public class CubeGameSolver {
 	}
 	
 	public Map<Integer, Map<Integer, Map<String, Integer>>> getAllGames() {
-		return this.getAllGames();
+		return this.allGames;
 	}
-
 }
