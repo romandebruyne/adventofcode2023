@@ -12,12 +12,12 @@ import java.util.Set;
 import de.personal.adventofcode2023.day03.quiz01.PartNumberFinder;
 
 public class GearRatioFinder extends PartNumberFinder {
-	private final Map<String, List<Integer>> allGears = new HashMap<>();
-
-	public int calculateSumOfGearRatios(Map<String, List<Integer>> allGears) {
+	private final Map<String, List<Integer>> allGearPairs = new HashMap<>();
+	
+	public int calculateSumOfGearRatios(Map<String, List<Integer>> allGearPairs) {
 		int sumOfGearRatios = 0;
 		
-		for (Entry<String, List<Integer>> gear : allGears.entrySet()) {
+		for (Entry<String, List<Integer>> gear : allGearPairs.entrySet()) {
 			if (gear.getValue().size() > 1) {
 				sumOfGearRatios += gear.getValue().get(0) * gear.getValue().get(1);
 			}
@@ -26,7 +26,7 @@ public class GearRatioFinder extends PartNumberFinder {
 		return sumOfGearRatios;
 	}
 
-	public void findAllGears(List<String> allLines) {
+	public void findAllGearPairs(List<String> allLines) {
 		int partNumber;
 		List<Integer> numberIndexPositions = new ArrayList<>();
 		
@@ -36,11 +36,10 @@ public class GearRatioFinder extends PartNumberFinder {
 				numberIndexPositions = this.getPartNumberIndexPositions(allLines.get(lineIndex), i);
 				
 				for (String position : getAsteriskPosition(allLines, lineIndex, numberIndexPositions)) {
-					System.out.println(position);
-					if (this.allGears.containsKey(position)) {
-						this.allGears.get(position).add(partNumber);
+					if (this.allGearPairs.containsKey(position)) {
+						this.allGearPairs.get(position).add(partNumber);
 					} else {
-						this.allGears.put(position, new ArrayList<>(Arrays.asList(partNumber)));
+						this.allGearPairs.put(position, new ArrayList<>(Arrays.asList(partNumber)));
 					}
 				}
 				
@@ -123,51 +122,11 @@ public class GearRatioFinder extends PartNumberFinder {
 		return asterikPositions;
 	}
 	
-	public int getPartNumberLeftFromAsterik(String input, int startPosition) {
-		String partNumberAsStringReversedOrder = "", partNumberAsString = "";
-		
-		for (int i = startPosition; i >= 0; i--) {
-			if (isNumeric(input.charAt(i))) {
-				partNumberAsStringReversedOrder += input.charAt(i);
-			} else if (isAsterisk(input.charAt(i)) || input.charAt(i) == '.') {
-				break;
-			}
-		}
-		
-		for (int i = partNumberAsStringReversedOrder.length() - 1; i >= 0; i--) {
-			partNumberAsString += partNumberAsStringReversedOrder.split("")[i];
-		}
-		
-		try {
-			return Integer.parseInt(partNumberAsString);
-		} catch (NumberFormatException e) {
-			return 0;
-		}
-	}
-	
-	public int getPartNumberRightFromAsterik(String input, int startPosition) {
-		String partNumberAsString = "";
-		
-		for (int i = startPosition; i < input.length(); i++) {
-			if (isNumeric(input.charAt(i))) {
-				partNumberAsString += input.charAt(i);
-			} else if (isAsterisk(input.charAt(i)) || input.charAt(i) == '.') {
-				break;
-			}
-		}
-		
-		try {
-			return Integer.parseInt(partNumberAsString);
-		} catch (NumberFormatException e) {
-			return 0;
-		}
-	}
-
 	private boolean isAsterisk(char input) {
 		return input == '*';
 	}
 
 	public Map<String, List<Integer>> getAllGears() {
-		return this.allGears;
+		return this.allGearPairs;
 	}
 }

@@ -30,23 +30,13 @@ public class GearRatioFinderTest {
 	}
 	
 	@Test
-	@DisplayName("Find all gears")
-	public void testFindAllGears() {
-		this.grf.findAllGears(this.testData);
-	}
-	
-	@Test
 	@DisplayName("Calculate sum of gear ratios")
 	public void testCalculateSumOfGearRatios() {
-		this.grf.findAllGears(this.testData);
+		this.grf.findAllGearPairs(this.testData);
 		Assertions.assertEquals(467835, this.grf.calculateSumOfGearRatios(this.grf.getAllGears()));
-	}
-	
-	@Test
-	@DisplayName("Calculate sum of gear ratios")
-	public void testCalculateSumOfGearRatioss() {
-		this.grf.findAllGears(this.grf.getAllLines());
-		System.out.println(this.grf.calculateSumOfGearRatios(this.grf.getAllGears()));
-		// Assertions.assertEquals(467835, this.grf.calculateSumOfGearRatios(this.grf.getAllGears()));
+		
+		this.grf = new GearRatioFinder();
+		this.grf.findAllGearPairs(this.grf.getAllLines());
+		Assertions.assertEquals(75847567, this.grf.calculateSumOfGearRatios(this.grf.getAllGears()));
 	}
 }
