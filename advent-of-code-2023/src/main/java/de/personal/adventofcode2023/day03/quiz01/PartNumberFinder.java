@@ -30,42 +30,29 @@ public class PartNumberFinder {
 	}
 	
 	public int calculateSumOfAllPartNumbers(List<String> allLines) {
-		int symbolPosition, sumOfPartNumbers = 0;
+		int partNumber, sumOfPartNumbers = 0;
+		List<Integer> numberIndexPositions = new ArrayList<>();
 
 		for (int lineIndex = 0; lineIndex < allLines.size(); lineIndex++) {
 			for (int i = 0; i < allLines.get(lineIndex).length(); i++) {
-				if (isSymbol(allLines.get(lineIndex).charAt(i))) {
-					symbolPosition = i;
-
-					for (String line : allLines) {
-						System.out.println(line);
-						sumOfPartNumbers += getPartNumberBeforeSymbol(line, symbolPosition);
-						sumOfPartNumbers += getPartNumberAfterSymbol(line, symbolPosition);
-					}
+				partNumber = getPartNumber(allLines.get(lineIndex), i);
+				numberIndexPositions = getPartNumberIndexPositions(allLines.get(lineIndex), i);
+				
+				if (isAdjacentToSymbol(allLines, lineIndex, numberIndexPositions)) {
+					sumOfPartNumbers += partNumber;
 				}
+				
+				i += numberIndexPositions.size();
 			}
 		}
 		
 		return sumOfPartNumbers;
 	}
 	
-	public int getPartNumberBeforeSymbol(String input, int symbolPosition) {
+	public int getPartNumber(String input, int startPosition) {
 		String partNumberAsString = "";
 		
-		for (int i = symbolPosition - 1; i >= 0; i--) {
-			if (isNumeric(input.charAt(i))) {
-				partNumberAsString += input.charAt(i);
-			} else if (isSymbol(input.charAt(i)) || input.charAt(i) == '.') {
-				break;
-			}
-		}
-		return reverseOrderInNumberFormattedString(partNumberAsString);
-	}
-	
-	public int getPartNumberAfterSymbol(String input, int symbolPosition) {
-		String partNumberAsString = "";
-		
-		for (int i = symbolPosition; i < input.length(); i++) {
+		for (int i = startPosition; i < input.length(); i++) {
 			if (isNumeric(input.charAt(i))) {
 				partNumberAsString += input.charAt(i);
 			} else if (isSymbol(input.charAt(i)) || input.charAt(i) == '.') {
@@ -80,19 +67,79 @@ public class PartNumberFinder {
 		}
 	}
 	
-	public int reverseOrderInNumberFormattedString(String input) {
-		String reversedInput = "";
-
-		try {
-			Integer.parseInt(input);
-			for (int i = input.length() - 1; i >= 0; i--) {
-				reversedInput += input.charAt(i);
+	public List<Integer> getPartNumberIndexPositions(String input, int startPosition) {
+		List<Integer> positions = new ArrayList<>();
+		
+		for (int i = startPosition; i < input.length(); i++) {
+			if (isNumeric(input.charAt(i))) {
+				positions.add(i);
+			} else if (isSymbol(input.charAt(i)) || input.charAt(i) == '.') {
+				return positions;
 			}
-		} catch (NumberFormatException e) {
-			return 0;
 		}
 		
-		return Integer.parseInt(reversedInput);			
+		return positions;
+	}
+	
+	public boolean isAdjacentToSymbol(List<String> allLines, int lineIndex, List<Integer> numberIndexPositions) {
+		for (int position : numberIndexPositions) {
+			if (lineIndex > 0) {
+				if (position == 0) {
+					if (isSymbol(allLines.get(lineIndex - 1).charAt(position)) ||
+							isSymbol(allLines.get(lineIndex - 1).charAt(position + 1))) {
+						return true;
+					}
+				} else if (position == allLines.get(lineIndex).length() - 1) {
+					if (isSymbol(allLines.get(lineIndex - 1).charAt(position - 1)) || 
+						isSymbol(allLines.get(lineIndex - 1).charAt(position))) {
+						return true;
+					}
+				} else {
+					if (isSymbol(allLines.get(lineIndex - 1).charAt(position - 1)) || 
+							isSymbol(allLines.get(lineIndex - 1).charAt(position)) ||
+							isSymbol(allLines.get(lineIndex - 1).charAt(position + 1))) {
+						return true;
+					}
+				}
+			}
+			
+			if (lineIndex < allLines.size() - 1) {
+				if (position == 0) {
+					if (isSymbol(allLines.get(lineIndex + 1).charAt(position)) ||
+							isSymbol(allLines.get(lineIndex + 1).charAt(position + 1))) {
+						return true;
+					}
+				} else if (position == allLines.get(lineIndex + 1).length() - 1) {
+					if (isSymbol(allLines.get(lineIndex + 1).charAt(position - 1)) || 
+						isSymbol(allLines.get(lineIndex + 1).charAt(position))) {
+						return true;
+					}
+				} else {
+					if (isSymbol(allLines.get(lineIndex + 1).charAt(position - 1)) || 
+							isSymbol(allLines.get(lineIndex + 1).charAt(position)) ||
+							isSymbol(allLines.get(lineIndex + 1).charAt(position + 1))) {
+						return true;
+					}
+				}
+			}
+			
+			if (position == 0) {
+				if (isSymbol(allLines.get(lineIndex).charAt(position + 1))) {
+					return true;
+				}
+			} else if (position == allLines.get(lineIndex).length() - 1) {
+				if (isSymbol(allLines.get(lineIndex).charAt(position - 1))) {
+					return true;
+				}
+			} else {
+				if (isSymbol(allLines.get(lineIndex).charAt(position - 1)) || 
+						isSymbol(allLines.get(lineIndex).charAt(position + 1))) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	private boolean isSymbol(char input) {
@@ -106,5 +153,9 @@ public class PartNumberFinder {
 	
 	private boolean isNumeric(char input) {
 		return Character.isDigit(input);
+	}
+	
+	public List<String> getAllLines() {
+		return this.allLines;
 	}
 }

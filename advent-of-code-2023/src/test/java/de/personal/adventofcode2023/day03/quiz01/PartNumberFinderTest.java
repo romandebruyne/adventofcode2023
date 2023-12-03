@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class PartNumberFinderTest {
-	
 	private PartNumberFinder pnf;
 	private List<String> testData;
 
@@ -27,18 +26,13 @@ public class PartNumberFinderTest {
 		this.testData.add("..592.....");
 		this.testData.add("......755.");
 		this.testData.add("...$.*....");
-		this.testData.add(".664.598..)");
+		this.testData.add(".664.598..");
 	}
 	
 	@Test
 	@DisplayName("Calculate sum of part numbers")
 	public void testCalculateSumOfAllPartNumbers() {
-		System.out.println(this.pnf.calculateSumOfAllPartNumbers(testData));
-	}
-	
-	@Test
-	@DisplayName("Reverse order of number formatted string")
-	public void testReverseOrderOfNumberFormattedString() {
-		Assertions.assertEquals(754, this.pnf.reverseOrderInNumberFormattedString("457"));
+		Assertions.assertEquals(4361, this.pnf.calculateSumOfAllPartNumbers(this.testData));
+		Assertions.assertEquals(539433, this.pnf.calculateSumOfAllPartNumbers(this.pnf.getAllLines()));
 	}
 }
