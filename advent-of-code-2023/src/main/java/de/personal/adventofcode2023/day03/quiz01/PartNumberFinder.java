@@ -142,7 +142,7 @@ public class PartNumberFinder {
 		return false;
 	}
 	
-	private boolean isSymbol(char input) {
+	public boolean isSymbol(char input) {
 		for (int i = 0; i < ALL_SYMBOLS.length(); i++) {
 			if (input == ALL_SYMBOLS.charAt(i)) {
 				return true;
@@ -151,7 +151,7 @@ public class PartNumberFinder {
 		return false;
 	}
 	
-	private boolean isNumeric(char input) {
+	public boolean isNumeric(char input) {
 		return Character.isDigit(input);
 	}
 	
