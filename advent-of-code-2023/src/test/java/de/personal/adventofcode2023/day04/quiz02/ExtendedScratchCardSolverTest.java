@@ -29,24 +29,21 @@ public class ExtendedScratchCardSolverTest {
 	@DisplayName("Determine matches per scratchcard")
 	public void testDetermineMatchesPerScratchcard() {
 		this.escs.createNumberMaps(this.testData);
-		this.escs.determineScratchcardsWonById(this.escs.getNumbersToCompare(), this.escs.getWinnnigNumbers());
-		this.escs.getScratchcardsWonById().entrySet().forEach(s -> System.out.println(s));
+		this.escs.determineScratchcardsWonByScratchcardId(this.escs.getNumbersToCompare(), this.escs.getWinnnigNumbers());
 	}
 
 	@Test
 	@DisplayName("Calculate sum")
 	public void testCalculateSum() {
 		this.escs.createNumberMaps(this.testData);
-		this.escs.determineScratchcardsWonById(this.escs.getNumbersToCompare(), this.escs.getWinnnigNumbers());
+		this.escs.determineScratchcardsWonByScratchcardId(this.escs.getNumbersToCompare(), this.escs.getWinnnigNumbers());
 		Assertions.assertEquals(30, this.escs.calculateSumOfScratchCards(this.escs.getNumbersToCompare(),
 				this.escs.getWinnnigNumbers()));
 		
 		this.escs = new ExtendedScratchCardSolver();
 		this.escs.createNumberMaps(this.escs.getAllLines());
-		this.escs.determineScratchcardsWonById(this.escs.getNumbersToCompare(), this.escs.getWinnnigNumbers());
-		System.out.println(this.escs.calculateSumOfScratchCards(this.escs.getNumbersToCompare(),
-				this.escs.getWinnnigNumbers()));
-		Assertions.assertEquals(30, this.escs.calculateSumOfScratchCards(this.escs.getNumbersToCompare(),
+		this.escs.determineScratchcardsWonByScratchcardId(this.escs.getNumbersToCompare(), this.escs.getWinnnigNumbers());
+		Assertions.assertEquals(10378710, this.escs.calculateSumOfScratchCards(this.escs.getNumbersToCompare(),
 				this.escs.getWinnnigNumbers()));
 	}
 	

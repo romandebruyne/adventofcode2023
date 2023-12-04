@@ -65,10 +65,8 @@ public class ScratchCardSolver {
 			
 			for (String number : numbersToCompare) {
 				if (this.numbersToCompare.containsKey(gameId)) {
-					try {
+					if (isNumeric(number.trim())) {
 						this.numbersToCompare.get(gameId).add(Integer.parseInt(number.trim()));
-					} catch (Exception e) {
-						System.err.println("Error during parsing");
 					}
 				} else {
 					this.numbersToCompare.put(gameId, new ArrayList<>());
@@ -77,15 +75,22 @@ public class ScratchCardSolver {
 			
 			for (String number : winningNumbers) {
 				if (this.winningNumbers.containsKey(gameId)) {
-					try {
+					if (isNumeric(number.trim())) {
 						this.winningNumbers.get(gameId).add(Integer.parseInt(number.trim()));
-					} catch (Exception e) {
-						System.err.println("Error during parsing");
 					}
 				} else {
 					this.winningNumbers.put(gameId, new ArrayList<>());
 				}
 			}
+		}
+	}
+	
+	public boolean isNumeric(String input) {
+		try {
+			Integer.parseInt(input.trim());
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
 		}
 	}
 	
