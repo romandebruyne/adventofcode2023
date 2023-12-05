@@ -36,10 +36,11 @@ public class LocationFinder {
 	}
 
 	public void findLocations() {
-		long location = 0;
+		long location = 0, count = 1;
 
 		for (long seed : this.allSeeds) {
 			location = seed;
+			System.out.println(count + ": " + seed);
 			location = findPositionOfValue(this.seedToSoilMap, location);
 			location = findPositionOfValue(this.soilToFertilizerMap, location);
 			location = findPositionOfValue(this.fertilizerToWaterMap, location);
