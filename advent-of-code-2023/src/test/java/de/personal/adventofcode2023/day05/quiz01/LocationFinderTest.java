@@ -24,7 +24,7 @@ public class LocationFinderTest {
 	}
 	
 	@Test
-	@DisplayName("FIND location with lowest value (real data")
+	@DisplayName("Find location with lowest value (real data")
 	public void testFindLocationWithLowestValueRealData() {
 		this.lf.importAllLines("./res/aoc_day05_input.txt");
 		this.lf.transformLines(this.lf.getAllLines());

@@ -36,11 +36,10 @@ public class LocationFinder {
 	}
 
 	public void findLocations() {
-		long location = 0, count = 1;
+		long location = 0;
 
 		for (long seed : this.allSeeds) {
 			location = seed;
-			System.out.println(count + ": " + seed);
 			location = findPositionOfValue(this.seedToSoilMap, location);
 			location = findPositionOfValue(this.soilToFertilizerMap, location);
 			location = findPositionOfValue(this.fertilizerToWaterMap, location);
@@ -52,7 +51,7 @@ public class LocationFinder {
 			this.seedToLocation.put(seed, location);
 		}
 	}
-
+	
 	public long findPositionOfValue(Map<List<Long>, List<Long>> map, long value) {
 		for (Entry<List<Long>, List<Long>> entry : map.entrySet()) {
 			if (value >= entry.getKey().get(0) && value <= entry.getKey().get(1)) {
