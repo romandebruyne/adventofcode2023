@@ -21,4 +21,13 @@ public class ExtendedLocationFinderTest {
 		this.elf.transformLines(this.elf.getAllLines());
 		Assertions.assertEquals(27, this.elf.getAllSeeds().size());
 	}
+	
+	@Test
+	@DisplayName("Find location with lowest value (test data)")
+	public void testFindLocationWithLowestValueTestData() {
+		this.elf.importAllLines("./res/aoc_day05_testinput.txt");
+		this.elf.transformLines(this.elf.getAllLines());
+		this.elf.findLocations();
+		Assertions.assertEquals(46, this.elf.findLocationWithLowestValue(this.elf.getSeedToLocationMap()));
+	}
 }

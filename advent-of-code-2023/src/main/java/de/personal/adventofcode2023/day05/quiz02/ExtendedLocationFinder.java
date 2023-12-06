@@ -5,6 +5,10 @@ import java.util.List;
 
 import de.personal.adventofcode2023.day05.quiz01.LocationFinder;
 
+/*
+ * Was not able to solve the quiz due to performance/memory issues. Anyway, the implemented logic works
+ * properly (see test with test data in test class).
+ */
 public class ExtendedLocationFinder extends LocationFinder {
 	
 	@Override

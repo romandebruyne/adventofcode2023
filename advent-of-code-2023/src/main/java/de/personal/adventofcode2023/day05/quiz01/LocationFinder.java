@@ -21,7 +21,7 @@ public class LocationFinder {
 	private final Map<List<Long>, List<Long>> lightToTemperatureMap = new HashMap<>();
 	private final Map<List<Long>, List<Long>> temperatureToHumidityMap = new HashMap<>();
 	private final Map<List<Long>, List<Long>> humidityToLocationMap = new HashMap<>();
-	private final Map<Long, Long> seedToLocation = new HashMap<>();
+	private final Map<Long, Long> seedToLocationMap = new HashMap<>();
 
 	public long findLocationWithLowestValue(Map<Long, Long> seedToLocationMap) {
 		long lowestValue = Long.MAX_VALUE;
@@ -48,7 +48,7 @@ public class LocationFinder {
 			location = findPositionOfValue(this.temperatureToHumidityMap, location);
 			location = findPositionOfValue(this.humidityToLocationMap, location);
 
-			this.seedToLocation.put(seed, location);
+			this.seedToLocationMap.put(seed, location);
 		}
 	}
 	
@@ -176,6 +176,6 @@ public class LocationFinder {
 	}
 
 	public Map<Long, Long> getSeedToLocationMap() {
-		return this.seedToLocation;
+		return this.seedToLocationMap;
 	}
 }
