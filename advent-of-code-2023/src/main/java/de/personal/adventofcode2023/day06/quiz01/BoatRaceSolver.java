@@ -9,17 +9,14 @@ public class BoatRaceSolver {
 	private List<Integer> allDistances = new ArrayList<>(Arrays.asList(401, 1485, 2274, 1405));
 	
 	public int getPotentialWins(List<Integer> times, List<Integer> distances) {
-		int speed, potentialWin;
+		int potentialWin;
 		List<Integer> potentialWins = new ArrayList<>();
 		
 		for (int i = 0; i < times.size(); i++) {
-			speed = 0;
 			potentialWin = 0;
 			
 			for (int millisecond = 1; millisecond <= times.get(i); millisecond++) {
-				speed++;
-				
-				if (speed * (times.get(i) - millisecond) > distances.get(i)) {
+				if (millisecond * (times.get(i) - millisecond) > distances.get(i)) {
 					potentialWin++;
 				}
 			}

@@ -21,8 +21,8 @@ public class BoatRaceSolverTest {
 	}
 	
 	@Test
-	@DisplayName("Get potentials")
-	public void testPot() {
+	@DisplayName("Get potential wins")
+	public void testGetPotentialWins() {
 		Assertions.assertEquals(288, this.brs.getPotentialWins(this.testTimes, this.testdistances));
 		Assertions.assertEquals(2374848, this.brs.getPotentialWins(
 				this.brs.getAllTimes(), this.brs.getAllDistances()));
