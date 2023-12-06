@@ -1,9 +1,9 @@
-package de.personal.adventofcode2023.day05.quiz02;
+package de.personal.adventofcode2023.day05old.quiz02;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.personal.adventofcode2023.day05.quiz01.LocationFinder;
+import de.personal.adventofcode2023.day05old.quiz01.LocationFinder;
 
 /*
  * Was not able to solve the quiz due to performance/memory issues. Anyway, the implemented logic works

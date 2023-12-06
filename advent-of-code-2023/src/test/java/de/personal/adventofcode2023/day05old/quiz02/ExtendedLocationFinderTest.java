@@ -1,9 +1,11 @@
-package de.personal.adventofcode2023.day05.quiz02;
+package de.personal.adventofcode2023.day05old.quiz02;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import de.personal.adventofcode2023.day05old.quiz02.ExtendedLocationFinder;
 
 public class ExtendedLocationFinderTest {
 	
