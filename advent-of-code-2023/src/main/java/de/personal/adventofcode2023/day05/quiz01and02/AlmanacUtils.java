@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day05.quiz01;
+package de.personal.adventofcode2023.day05.quiz01and02;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.LongStream;
 
 public class AlmanacUtils {
 	
@@ -32,6 +33,16 @@ public class AlmanacUtils {
 		}
 		
 		return allLines;
+	}
+	
+	public static List<Seed> transformSeedList(List<Seed> seeds) {
+		List<Seed> transformedList = new ArrayList<>();
+		
+		for (int i = 0; i < seeds.size(); i += 2) {
+			transformedList.add(new Seed(seeds.get(i).getSourceValue(), seeds.get(i + 1).getSourceValue()));
+		}
+		
+		return transformedList;
 	}
 	
 	public static List<Seed> extractSeedsFromAllLines(Almanac almanac) {
@@ -109,6 +120,24 @@ public class AlmanacUtils {
 	
 	public static long findLocationWithLowestValue(List<Seed> seeds) {
 		return seeds.stream().min(Comparator.comparing(Seed::getLocationValue)).get().getLocationValue();
+	}
+	
+	public static long findLocationWithLowestValueFromSeedRange(List<Seed> seeds, Almanac alm) {
+		long lowestValue = Long.MAX_VALUE, tempMinimum, startValue, endValue;
+		
+		for (int i = 0; i < seeds.size(); i++) {
+			startValue = seeds.get(i).getSourceValue();
+			endValue = startValue + seeds.get(i).getSourceRangeLength() - 1;
+
+			tempMinimum = LongStream.range(startValue, endValue)
+					.parallel()
+					.map(s -> new Seed(s).determineLocationValue(alm))
+					.min().orElse(-1L);
+			
+			lowestValue = Math.min(tempMinimum, lowestValue);
+		}
+		
+		return lowestValue;
 	}
 	
 	public static boolean isNumeric(String input) {

@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day05.quiz01;
+package de.personal.adventofcode2023.day05.quiz01and02;
 
 import java.util.HashMap;
 import java.util.List;
