@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day07.quiz01;
+package de.personal.adventofcode2023.day07.quiz01and02;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ public class Hand {
 	public Hand(String values, int bid) {
 		this.values = values;
 		this.bid = bid;
-		this.strengths = Hands.determineStrengthOfValues(this);
 	}
 	
 	public String getValues() {
@@ -32,5 +31,9 @@ public class Hand {
 	
 	public List<Integer> getStrengths() {
 		return this.strengths;
+	}
+	
+	public void setStrengths(List<Integer> strengths) {
+		this.strengths = strengths;
 	}
 }
