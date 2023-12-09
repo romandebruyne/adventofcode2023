@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day09.quiz01;
+package de.personal.adventofcode2023.day09.quiz01and02;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,17 +13,37 @@ public class SequenceSolver {
 	
 	private SequenceSolver() {}
 	
-	public static long calculateSumOfPredictedValues(List<List<Long>> allSequences) {
+	public static long calculateSumOfPredictedValues(List<List<Long>> allSequences, boolean extrapolateForward) {
 		long sum = 0L;
 		
 		for (List<Long> seq : allSequences) {
-			sum += predictNextValueOfSequence(findZeroSequence(seq));
+			if (extrapolateForward) {
+				sum += findValueWithForwardExtrapolation(findZeroSequence(seq));
+			} else {
+				sum += findValueWithBackwardExtrapolation(findZeroSequence(seq));
+			}
 		}
 		
 		return sum;
 	}
 	
-	public static long predictNextValueOfSequence(List<List<Long>> seqUpToAllZeros) {
+	public static long findValueWithBackwardExtrapolation(List<List<Long>> seqUpToAllZeros) {
+		long lastValue, lastValueFromPrevious;
+		List<Long> previous = new ArrayList<>(), current = new ArrayList<>();
+		
+		for (int i = seqUpToAllZeros.size() - 1; i > 0; i--) {
+			previous = seqUpToAllZeros.get(i - 1);
+			current = seqUpToAllZeros.get(i);
+			
+			lastValueFromPrevious = previous.get(0);
+			lastValue = current.get(0);
+			seqUpToAllZeros.get(i - 1).add(0, lastValueFromPrevious - lastValue);
+		}
+		
+		return seqUpToAllZeros.get(0).get(0);
+	}
+	
+	public static long findValueWithForwardExtrapolation(List<List<Long>> seqUpToAllZeros) {
 		long lastValue, lastValueFromPrevious;
 		List<Long> previous = new ArrayList<>(), current = new ArrayList<>();
 		
@@ -38,7 +58,6 @@ public class SequenceSolver {
 		
 		return seqUpToAllZeros.get(0).get(seqUpToAllZeros.get(0).size() - 1);
 	}
-	
 	
 	public static List<List<Long>> findZeroSequence(List<Long> sequence) {
 		List<List<Long>> sequences = new ArrayList<>(Arrays.asList(sequence));
