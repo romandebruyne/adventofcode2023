@@ -1,5 +1,7 @@
-package de.personal.adventofcode2023.day10.quiz01;
+package de.personal.adventofcode2023.day10.quiz01and02;
 
+import java.awt.Point;
+import java.awt.Polygon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,20 +12,56 @@ import java.util.List;
 
 public class MazeSolver {
 	
-	private MazeSolver() {
+	private MazeSolver() {}
+	
+	public static int calculateSumOfTiles(List<String> allLines, List<List<Integer>> loop) {
+		Polygon polygon = transformLoopToPolygon(loop);
+		List<Integer> vertice = new ArrayList<>();
+		int sum = 0;
 		
+		for (int lineIndex = 0; lineIndex < allLines.size(); lineIndex++) {
+			for (int i = 0; i < allLines.get(lineIndex).length(); i++) {
+				vertice = new ArrayList<>(Arrays.asList(lineIndex, i));
+				
+				if (isTileInLoop(i, lineIndex, polygon) && !loop.contains(vertice)) {
+					sum++;
+				}
+			}
+		}			
+		
+		return sum;
+	}
+
+	public static int determineMaximumSteps(List<List<Integer>> loop) {
+		if ((loop.size() - 1) % 2 == 0) {
+			return (loop.size() - 1) / 2;
+		} else {
+			return (loop.size()) / 2 + 1;
+		}
 	}
 	
-	public static int determineMaximumSteps(List<String> allLines) {
+	public static Polygon transformLoopToPolygon(List<List<Integer>> loop) {
+        Polygon polygon = new Polygon();
+
+        for(List<Integer> point : loop) {
+            polygon.addPoint(point.get(1), point.get(0));
+        }
+        
+        return polygon;
+	}
+	
+	public static boolean isTileInLoop(int x, int y, Polygon polygon) {
+        return polygon.contains(new Point(x, y));
+    }
+	
+	public static List<List<Integer>> findTheLoop(List<String> allLines) {
 		List<Integer> startingPosition = findStartingPosition(allLines);
 		List<List<Integer>> nextPipePositions = new ArrayList<>(Arrays.asList(startingPosition));
-		int steps = 0;
 		
 		allLines.set(startingPosition.get(0), allLines.get(startingPosition.get(0)).replace('S',
 				determineShapeOfS(allLines, startingPosition)));
 
 		do {
-			steps++;
 			if (nextPipePositions.size() == 1) {
 				nextPipePositions.add(determineNextPipe(allLines, nextPipePositions.get(nextPipePositions.size() - 1),
 						new ArrayList<>()));
@@ -33,18 +71,15 @@ public class MazeSolver {
 			}
 		} while (!startingPosition.equals(nextPipePositions.get(nextPipePositions.size() - 1)));
 		
-		if (steps % 2 == 0) {
-			return steps / 2;
-		} else {
-			return (steps - 1) / 2 + 1; 
-		}
+		return nextPipePositions;
 	}
 	
 	public static List<Integer> determineNextPipe(List<String> allLines, List<Integer> currentPosition,
 			List<Integer> previousPosition) {
 		List<Integer> nextPosition = new ArrayList<>();
 		
-		char currentSymbol = allLines.get(currentPosition.get(0)).charAt(currentPosition.get(1)), north, south, east, west;
+		char currentSymbol = allLines.get(currentPosition.get(0)).charAt(currentPosition.get(1)),
+				north, south, east, west;
 		
 		if (currentPosition.get(0) > 0) {
 			north = allLines.get(currentPosition.get(0) - 1).charAt(currentPosition.get(1));
@@ -123,10 +158,31 @@ public class MazeSolver {
 	
 	public static char determineShapeOfS(List<String> allLines, List<Integer> currentPosition) {
 		char currentSymbol = allLines.get(currentPosition.get(0)).charAt(currentPosition.get(1)),
-				north = allLines.get(currentPosition.get(0) - 1).charAt(currentPosition.get(1)),
-				south = allLines.get(currentPosition.get(0) + 1).charAt(currentPosition.get(1)),
-				east = allLines.get(currentPosition.get(0)).charAt(currentPosition.get(1) + 1),
-				west = allLines.get(currentPosition.get(0)).charAt(currentPosition.get(1) - 1);
+				north, south, east, west;
+		
+		if (currentPosition.get(0) > 0) {
+			north = allLines.get(currentPosition.get(0) - 1).charAt(currentPosition.get(1));
+		} else {
+			north = 'x';
+		}
+		
+		if (currentPosition.get(0) < allLines.size() - 1) {
+			south = allLines.get(currentPosition.get(0) + 1).charAt(currentPosition.get(1));
+		} else {
+			south = 'x';
+		}
+		
+		if (currentPosition.get(1) > 0) {
+			west = allLines.get(currentPosition.get(0)).charAt(currentPosition.get(1) - 1);
+		} else {
+			west = 'x';
+		}
+
+		if (currentPosition.get(1) < allLines.get(currentPosition.get(0)).length() - 1) {
+			east = allLines.get(currentPosition.get(0)).charAt(currentPosition.get(1) + 1);
+		} else {
+			east = 'x';
+		}
 		
 		if ('S' == currentSymbol) {
 			if (north == '|' && (east == 'J' || east == '7' || east == '-')) {
@@ -135,9 +191,11 @@ public class MazeSolver {
 				return 'J';
 			} else if (north == '|' && south == '|') {
 				return '|';
-			} else if ((south == '|' || south == 'J' || south == 'L') && (east == 'J' || east == '7' || east == '-')) {
+			} else if ((south == '|' || south == 'J' || south == 'L')
+					&& (east == 'J' || east == '7' || east == '-')) {
 				return 'F';
-			} else if ((south == '|' || south == 'J' || south == 'L') && (west == 'F' || west == 'L' || west == '-')) {
+			} else if ((south == '|' || south == 'J' || south == 'L')
+					&& (west == 'F' || west == 'L' || west == '-')) {
 				return '7';
 			}
 		}
@@ -176,5 +234,4 @@ public class MazeSolver {
 	private static boolean listsAreEqual(List<Integer> list1, List<Integer> list2) {
 		return list1.equals(list2);
 	}
-
 }
