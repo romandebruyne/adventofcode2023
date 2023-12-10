@@ -10,9 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import de.personal.adventofcode2023.day07.quiz01and02.Hand;
-import de.personal.adventofcode2023.day07.quiz01and02.Hands;
-
 public class Day07Test {
 	
 	private List<Hand> testDataPartOne;
