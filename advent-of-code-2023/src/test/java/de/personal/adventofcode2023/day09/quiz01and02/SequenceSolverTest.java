@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.personal.adventofcode2023.day09.quiz01and02.SequenceSolver;
-
 public class SequenceSolverTest {
 	private List<List<Long>> testData;
 	
