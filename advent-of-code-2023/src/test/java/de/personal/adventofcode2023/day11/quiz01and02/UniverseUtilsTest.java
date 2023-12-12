@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day11.quiz01;
+package de.personal.adventofcode2023.day11.quiz01and02;
 
 import java.util.List;
 import java.util.Map;
@@ -11,24 +11,16 @@ import org.junit.jupiter.api.Test;
 public class UniverseUtilsTest {
 	
 	private List<String> testData;
-	private List<String> testDataExpanded;
 	
 	@BeforeEach
 	public void setup() {
 		this.testData = UniverseUtils.importUniverse("./res/aoc_day11_testinput.txt");
-		this.testDataExpanded = UniverseUtils.importUniverse("./res/aoc_day11_testinput_expanded.txt");
 	}
 	
 	@Disabled
 	@Test
 	public void testImportUniverse() {
 		this.testData.forEach(System.out::println);
-	}
-	
-	@Test
-	public void testExpandUniverse() {
-		List<String> expandedUniverse = UniverseUtils.expandUniverse(this.testData);
-		Assertions.assertTrue(expandedUniverse.equals(this.testDataExpanded));
 	}
 	
 	@Test
@@ -40,21 +32,26 @@ public class UniverseUtilsTest {
 	
 	@Test
 	public void testFindCoordinatesOfGalaxy() {
-		List<String> expandedUniverseTest = UniverseUtils.expandUniverse(this.testData);
-		Map<Integer, List<Integer>> coordsTest = UniverseUtils.findCoordinatesOfGalaxy(expandedUniverseTest);
+		List<String> expandedUniverseTest = UniverseUtils.expandUniverse(this.testData, 2);
+		Map<Integer, List<Integer>> coordsTest = UniverseUtils.findCoordinatesOfGalaxy(expandedUniverseTest, 2);
 		Assertions.assertEquals(9, coordsTest.size());
 		
 		List<String> expandedUniverseReal = UniverseUtils.expandUniverse(
-				UniverseUtils.importUniverse("./res/aoc_day11_input.txt"));
-		Map<Integer, List<Integer>> coordsReal = UniverseUtils.findCoordinatesOfGalaxy(expandedUniverseReal);
+				UniverseUtils.importUniverse("./res/aoc_day11_input.txt"), 2);
+		Map<Integer, List<Integer>> coordsReal = UniverseUtils.findCoordinatesOfGalaxy(expandedUniverseReal, 2);
 		Assertions.assertEquals(450, coordsReal.size());
 	}
 	
 	@Test
 	public void testCalculateSumOfDistances() {
-		Assertions.assertEquals(374, UniverseUtils.calculateSumOfDistances(this.testData));
+		Assertions.assertEquals(374, UniverseUtils.calculateSumOfDistances(this.testData, 2).longValue());
+		Assertions.assertEquals(1030, UniverseUtils.calculateSumOfDistances(this.testData, 10).longValue());
+		Assertions.assertEquals(8410, UniverseUtils.calculateSumOfDistances(this.testData, 100).longValue());
 		
 		List<String> universe = UniverseUtils.importUniverse("./res/aoc_day11_input.txt");
-		Assertions.assertEquals(10494813, UniverseUtils.calculateSumOfDistances(universe));
+		Assertions.assertEquals(10494813, UniverseUtils.calculateSumOfDistances(universe, 2).longValue());
+		Assertions.assertEquals(840988812853L, UniverseUtils.calculateSumOfDistances(universe, 1000000).longValue());
+		
+		
 	}
 }
