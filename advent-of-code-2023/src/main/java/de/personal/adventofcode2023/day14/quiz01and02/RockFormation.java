@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day14.quiz01;
+package de.personal.adventofcode2023.day14.quiz01and02;
 
 import java.util.List;
 

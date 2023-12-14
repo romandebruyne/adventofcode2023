@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day14.quiz01;
+package de.personal.adventofcode2023.day14.quiz01and02;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -73,19 +73,9 @@ public class RockFormationUtils {
 	public static long calculateSum(List<String> rockFormation) {
 		long sum = 0L;
 		
-//		for (int rowIndex = 0; rowIndex < rockFormation.size(); rowIndex++) {
-//			sum += rockFormation.get(rowIndex).chars().filter(s -> s == 'O').count()
-//					* (rockFormation.size() - rowIndex);
-//			System.out.println(sum);
-//		}
-		
-		for (int colIndex = 0; colIndex < rockFormation.get(0).length(); colIndex++) {
-			for (int rowIndex = 0; rowIndex < rockFormation.size(); rowIndex++) {
-				if (rockFormation.get(rowIndex).charAt(colIndex) == 'O') {
-					sum += (rockFormation.size() - rowIndex);
-				}
-			}
-			System.out.println(sum);
+		for (int rowIndex = 0; rowIndex < rockFormation.size(); rowIndex++) {
+			sum += rockFormation.get(rowIndex).chars().filter(s -> s == 'O').count()
+					* (rockFormation.size() - rowIndex);
 		}
 		
 		return sum;
@@ -94,6 +84,7 @@ public class RockFormationUtils {
 	public static long calculateSumAfterNCycles(List<String> rockFormation, int numOfCycles) {
 		Map<String, Integer> cache = new HashMap<>();
 		String rockFormationString;
+		long delta;
 		
 		for (int i = 0; i < numOfCycles; i++) {
 			rockFormation = cycleRockFormation(rockFormation);
@@ -101,13 +92,12 @@ public class RockFormationUtils {
 			rockFormationString = rockFormationToString(rockFormation);
 			
 			if (cache.containsKey(rockFormationString)) {
-				i += cache.get(rockFormationString);
+				delta = i - cache.get(rockFormationString);
+				i += delta * ((numOfCycles - i) / delta);
 			}
 
 			cache.put(rockFormationString, i);
 		}
-		
-		rockFormation.forEach(System.out::println);
 		
 		return calculateSum(rockFormation);
 	}
@@ -167,129 +157,61 @@ public class RockFormationUtils {
 		return column;
 	}
 	
+	private static int findHashtagIndex(List<Character> column, int start) {
+		for (int i = start; i < column.size(); i++) {
+			if (column.get(i) == '#') {
+				return i;
+			}
+		}
+		
+		return column.size();
+	}
+	
 	public static List<Character> tiltColumnToNorth(List<Character> column) {
-		int indexFirstHashtag, indexSecondHashtag;
+		int end;
 		
 		for (int i = 0; i < column.size(); i++) {
-			if (column.get(i) == '#' || i == 0) {
-				indexFirstHashtag = i + 1;
-				
-				if (i == 0 && column.get(i) != '#') {
-					indexFirstHashtag = 0;
-				} else if (i == column.size() - 2 && column.get(i) == '#') {
-					return column;
-				}
-				
-				for (int j = indexFirstHashtag; j < column.size(); j++) {
-					if (column.get(j) == '#' || j == column.size() - 1) {
-						indexSecondHashtag = j == column.size() - 1 ? column.size() : j;
-						
-						if (column.get(j) == '#') {
-							indexSecondHashtag = j;
-						}
-						
-						column = replaceRoundRocks(column, indexFirstHashtag, indexSecondHashtag, true);
-						break;
-					}
-				}
-			}
+			end = findHashtagIndex(column, i);
+			column = replaceRoundRocks(column, i, end, true);
+			i = end;
 		}
 		
 		return column;
 	}
 	
 	public static List<Character> tiltColumnToSouth(List<Character> column) {
-		int indexFirstHashtag, indexSecondHashtag;
+		int end;
 		
 		for (int i = 0; i < column.size(); i++) {
-			if (column.get(i) == '#' || i == 0) {
-				indexFirstHashtag = i + 1;
-				
-				if (i == 0 && column.get(i) != '#') {
-					indexFirstHashtag = 0;
-				} else if (i == column.size() - 2 && column.get(i) == '#') {
-					return column;
-				}
-				
-				for (int j = indexFirstHashtag; j < column.size(); j++) {
-					if (column.get(j) == '#' || j == column.size() - 1) {
-						indexSecondHashtag = j == column.size() - 1 ? column.size() : j;
-						
-						if (column.get(j) == '#') {
-							indexSecondHashtag = j;
-						}
-						
-						column = replaceRoundRocks(column, indexFirstHashtag, indexSecondHashtag, false);
-						break;
-					}
-				}
-			}
+			end = findHashtagIndex(column, i);
+			column = replaceRoundRocks(column, i, end, false);
+			i = end;
 		}
 		
 		return column;
 	}
 	
 	public static List<Character> tiltRowToEast(List<Character> row) {
-		int indexFirstHashtag, indexSecondHashtag;
+		int end;
 		
 		for (int i = 0; i < row.size(); i++) {
-			if (row.get(i) == '#' || i == 0) {
-				indexFirstHashtag = i + 1;
-				
-				if (i == 0 && row.get(i) != '#') {
-					indexFirstHashtag = 0;
-				} else if (i == row.size() - 2 && row.get(i) == '#') {
-					return row;
-				}
-				
-				for (int j = indexFirstHashtag; j < row.size(); j++) {
-					if (row.get(j) == '#' || j == row.size() - 1) {
-						indexSecondHashtag = j == row.size() - 1 ? row.size() : j;
-						
-						if (row.get(j) == '#') {
-							indexSecondHashtag = j;
-						}
-						
-						row = replaceRoundRocks(row, indexFirstHashtag, indexSecondHashtag, false);
-						break;
-					}
-				}
-			}
+			end = findHashtagIndex(row, i);
+			row = replaceRoundRocks(row, i, end, false);
+			i = end;
 		}
 		
 		return row;
 	}
 	
 	public static List<Character> tiltRowToWest(List<Character> row) {
-		int indexFirstHashtag, indexSecondHashtag;
+		int end;
 		
 		for (int i = 0; i < row.size(); i++) {
-			if (row.get(i) == '#' || i == 0) {
-				indexFirstHashtag = i + 1;
-				
-				if (i == 0 && row.get(i) != '#') {
-					indexFirstHashtag = 0;
-				} else if (indexFirstHashtag == row.size()) {
-					indexFirstHashtag = i;
-				} else if (i == row.size() - 2 && row.get(i) == '#') {
-					return row;
-				}
-				
-				for (int j = indexFirstHashtag; j < row.size(); j++) {
-					if (row.get(j) == '#' || j == row.size() - 1) {
-						indexSecondHashtag = j == row.size() - 1 ? row.size() : j;
-						
-						if (row.get(j) == '#') {
-							indexSecondHashtag = j;
-						}
-						
-						row = replaceRoundRocks(row, indexFirstHashtag, indexSecondHashtag, true);
-						break;
-					}
-				}
-			}
+			end = findHashtagIndex(row, i);
+			row = replaceRoundRocks(row, i, end, true);
+			i = end;
 		}
-
+		
 		return row;
 	}
 	

@@ -1,6 +1,5 @@
-package de.personal.adventofcode2023.day14.quiz01;
+package de.personal.adventofcode2023.day14.quiz01and02;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -32,7 +31,7 @@ public class RockFormationUtilsTest {
 	
 	@Test
 	public void testTiltColumnToNorth() {
-		List<Character> col = RockFormationUtils.getColumnFromRockFormation(this.testData, 0);
+		List<Character> col = RockFormationUtils.getColumnFromRockFormation(this.realData, 8);
 		System.out.println(col);
 		List<Character> tiltedCol = RockFormationUtils.tiltColumnToNorth(col);
 		System.out.println(tiltedCol);
@@ -40,7 +39,7 @@ public class RockFormationUtilsTest {
 	
 	@Test
 	public void testTiltColumnToSouth() {
-		List<Character> col = RockFormationUtils.getColumnFromRockFormation(this.testData, 9);
+		List<Character> col = RockFormationUtils.getColumnFromRockFormation(this.realData, 8);
 		System.out.println(col);
 		List<Character> tiltedCol = RockFormationUtils.tiltColumnToSouth(col);
 		System.out.println(tiltedCol);
@@ -48,9 +47,17 @@ public class RockFormationUtilsTest {
 	
 	@Test
 	public void testTiltRowToWest() {
-		List<Character> row = RockFormationUtils.convertStringToCharList(this.testData.get(1));
+		List<Character> row = RockFormationUtils.convertStringToCharList(this.realData.get(8));
 		System.out.println(row);
 		List<Character> tiltedRow = RockFormationUtils.tiltRowToWest(row);
+		System.out.println(tiltedRow);
+	}
+	
+	@Test
+	public void testTiltRowToEast() {
+		List<Character> row = RockFormationUtils.convertStringToCharList(this.realData.get(8));
+		System.out.println(row);
+		List<Character> tiltedRow = RockFormationUtils.tiltRowToEast(row);
 		System.out.println(tiltedRow);
 	}
 	
@@ -58,9 +65,7 @@ public class RockFormationUtilsTest {
 	public void testReplaceOriginalColumnWithTiltedColumn() {
 		List<Character> col = RockFormationUtils.getColumnFromRockFormation(this.realData, 0);
 		List<Character> tiltedCol = RockFormationUtils.tiltColumnToNorth(col);
-		
 		this.realData = RockFormationUtils.replaceOriginalColumnWithTiltedColumn(this.realData, tiltedCol, 0);
-		
 		this.realData.forEach(System.out::println);
 	}
 	
@@ -80,25 +85,12 @@ public class RockFormationUtilsTest {
 	@Test
 	public void testCalculateSumAfterNCycles() {
 		Assertions.assertEquals(64, RockFormationUtils.calculateSumAfterNCycles(this.testData, 1000000000));
-//		RockFormationUtils.calculateSumAfterNCycles(this.testData, 3);
-		System.out.println(RockFormationUtils.calculateSumAfterNCycles(this.realData, 1000000000));
+		Assertions.assertEquals(96003, RockFormationUtils.calculateSumAfterNCycles(this.realData, 1000000000));
 		
-	}
-	
-	@Test
-	public void testCycles() {
-		this.testData.forEach(System.out::println);
-		System.out.println();
-		RockFormationUtils.tiltRockFormationToSouth(this.testData).forEach(System.out::println);;
 	}
 	
 	@Test
 	public void testCycleRockFormation() {
 		RockFormationUtils.cycleRockFormation(this.testData).forEach(System.out::println);;
-	}
-	
-	@Test
-	public void testSum() {
-		System.out.println(2 * (5 / 2));
 	}
 }
