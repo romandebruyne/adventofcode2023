@@ -1,13 +1,18 @@
-package de.personal.adventofcode2023.day12.quiz01;
+package de.personal.adventofcode2023.day12.quiz01and02;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RecordUtils {
+	
+	private static Map<Integer, List<String>> CACHE = new HashMap<>();
 	
 	private RecordUtils() {}
 	
@@ -35,17 +40,39 @@ public class RecordUtils {
 		return allRecords;
 	}
 	
+	public static List<Record> transformAllRecords(List<Record> allRecords, int multiplier) {
+		List<Record> transformedRecords = new ArrayList<>();
+		
+		for (Record rec : allRecords) {
+			rec.transformParts(multiplier);
+			rec.transformSizes(multiplier);
+			transformedRecords.add(rec);
+		}
+		
+		return transformedRecords;
+	}
+	
 	public static long calculateSumOfFeasiblePermutation(List<Record> allRecords) {
-		List<String> permutedParts = new ArrayList<>();
+		Map<Integer, List<String>> permutationsMap = new HashMap<>();
+		List<String> permutations, permutedParts = new ArrayList<>();
 		List<Integer> indexes = new ArrayList<>();
-		String[] permutations;
 		long sum = 0;
 		
 		for (Record rec : allRecords) {
 			indexes = getIndexesOfQuestionMarks(rec.getParts());
-			permutations = RecordUtils.getAllPermutations(indexes.size());
-			permutedParts = RecordUtils.permuteString(rec.getParts(), indexes, permutations);
-			sum += permutedParts.stream().filter(p -> RecordUtils.isFeasiblePermutation(p, rec.getSizes())).count();
+			
+			if (!permutationsMap.containsKey(indexes.size())) {
+				permutations = getAllPermutations(indexes.size());
+				permutationsMap.put(indexes.size(), permutations);
+			} else {
+				permutations = permutationsMap.get(indexes.size());
+			}
+			
+			permutedParts = permuteString(rec.getParts(), indexes, permutations);
+			sum += permutedParts
+					.stream()
+					.parallel()
+					.filter(p -> isFeasiblePermutation(p, rec.getSizes())).count();
 		}
 		
 		return sum;
@@ -85,7 +112,7 @@ public class RecordUtils {
 		return sizes.equals(hashCounts);
 	}
 	
-	public static List<String> permuteString(String input, List<Integer> indexes, String[] permutations) {
+	public static List<String> permuteString(String input, List<Integer> indexes, List<String> permutations) {
 		char[] charArray = input.toCharArray();
 		List<String> allStrings = new ArrayList<>();
 		
@@ -100,51 +127,27 @@ public class RecordUtils {
 		return allStrings;
 	}
 	
-	public static String[] getAllPermutations(int listLength) {
-		String[] elements = {".", "#"}, allLists = new String[(int) Math.pow(elements.length, listLength)],
-				allSublists;
-		int arrayIndex;
+	public static List<String> getAllPermutations(int listLength) {
+		List<String> elements = new ArrayList<>(Arrays.asList(".", "#")),
+				allPerms = new ArrayList<>(), allPermSublists;
 
 		if (listLength == 1)
 			return elements;
 		else {
-			allSublists = getAllPermutations(listLength - 1);
-			arrayIndex = 0;
+			if (!CACHE.containsKey(listLength - 1)) {
+				allPermSublists = getAllPermutations(listLength - 1);
+				CACHE.put(listLength - 1, allPermSublists);
+			} else {
+				allPermSublists = CACHE.get(listLength - 1);
+			}
 
-			for (int i = 0; i < elements.length; i++) {
-				for (int j = 0; j < allSublists.length; j++) {
-					allLists[arrayIndex] = elements[i] + allSublists[j];
-					arrayIndex++;
+			for (int i = 0; i < elements.size(); i++) {
+				for (int j = 0; j < allPermSublists.size(); j++) {
+					allPerms.add(elements.get(i) + allPermSublists.get(j));
 				}
 			}
 
-			return allLists;
-		}
-	}
-	
-	public static String[] oldgetAllPermutations(String[] elements, int lengthOfList) {
-		// initialize our returned list with the number of elements calculated above
-		String[] allLists = new String[(int) Math.pow(elements.length, lengthOfList)];
-
-		// lists of length 1 are just the original elements
-		if (lengthOfList == 1)
-			return elements;
-		else {
-			// the recursion--get all lists of length 3, length 2, all the way up to 1
-			String[] allSublists = oldgetAllPermutations(elements, lengthOfList - 1);
-
-			// append the sublists to each element
-			int arrayIndex = 0;
-
-			for (int i = 0; i < elements.length; i++) {
-				for (int j = 0; j < allSublists.length; j++) {
-					// add the newly appended combination to the list
-					allLists[arrayIndex] = elements[i] + allSublists[j];
-					arrayIndex++;
-				}
-			}
-
-			return allLists;
+			return allPerms;
 		}
 	}
 	
