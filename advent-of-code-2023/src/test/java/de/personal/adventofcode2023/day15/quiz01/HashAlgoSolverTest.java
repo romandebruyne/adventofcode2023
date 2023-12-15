@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.personal.adventofcode2023.day15.quiz01and02.HashAlgoSolver;
+
 public class HashAlgoSolverTest {
 	
 	private String testString = "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7";
@@ -29,9 +31,14 @@ public class HashAlgoSolverTest {
 	}
 	
 	@Test
-	public void testCalculateSum() {
-		Assertions.assertEquals(1320, HashAlgoSolver.calculateSum(this.testData));
-		Assertions.assertEquals(516657, HashAlgoSolver.calculateSum(this.realData));
+	public void testCalculateSumPartOne() {
+		Assertions.assertEquals(1320, HashAlgoSolver.calculateSumPartOne(this.testData));
+		Assertions.assertEquals(516657, HashAlgoSolver.calculateSumPartOne(this.realData));
 	}
 	
+	@Test
+	public void testCalculateSumPartTwo() {
+		Assertions.assertEquals(145, HashAlgoSolver.calculateSumPartTwo(this.testData));
+		Assertions.assertEquals(210906, HashAlgoSolver.calculateSumPartTwo(this.realData));
+	}
 }
