@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day15.quiz01;
+package de.personal.adventofcode2023.day15.quiz01and02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,8 +7,6 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import de.personal.adventofcode2023.day15.quiz01and02.HashAlgoSolver;
 
 public class HashAlgoSolverTest {
 	

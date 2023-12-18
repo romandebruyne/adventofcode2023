@@ -13,8 +13,8 @@ public class DiggerTest {
 	
 	@BeforeEach
 	public void setup() {
-		this.testDigPlan = Digger.importDigPlan("/Users/VWPC85K/git/advent-of-code-2023/advent-of-code-2023/src/main/java/de/personal/adventofcode2023/day18/quiz01/aoc_day18_testinput.txt");
-		this.digPlan = Digger.importDigPlan("/Users/VWPC85K/git/advent-of-code-2023/advent-of-code-2023/src/main/java/de/personal/adventofcode2023/day18/quiz01/aoc_day18_input.txt");
+		this.testDigPlan = Digger.importDigPlan("./res/aoc_day18_testinput.txt");
+		this.digPlan = Digger.importDigPlan("./res/aoc_day18_input.txt");
 	}
 	
 	@Test
