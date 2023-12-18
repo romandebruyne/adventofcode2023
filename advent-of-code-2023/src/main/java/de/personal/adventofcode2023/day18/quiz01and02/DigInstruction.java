@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day18.quiz01;
+package de.personal.adventofcode2023.day18.quiz01and02;
 
 public class DigInstruction {
 	
@@ -11,6 +11,12 @@ public class DigInstruction {
 		this.direction = direction;
 		this.colorCode = colorCode;
 	}
+	
+	public DigInstruction(int numberOfMoves, char direction) {
+		this.numberOfMoves = numberOfMoves;
+		this.direction = direction;
+	}
+	
 	public int getNumberOfMoves() {
 		return this.numberOfMoves;
 	}
