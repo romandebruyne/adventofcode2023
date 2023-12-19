@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class WorkflowUtils {
+public class Day19Utils {
 	
-	private WorkflowUtils() {}
+	private Day19Utils() {}
 	
 	public static Map<String, Workflow> importAllWorkflows(String inputPath) {
 		Map<String, Workflow> allWorkflows = new HashMap<>();
