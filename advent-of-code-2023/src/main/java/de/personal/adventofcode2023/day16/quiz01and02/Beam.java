@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day16.quiz01;
+package de.personal.adventofcode2023.day16.quiz01and02;
 
 public class Beam {
 	
