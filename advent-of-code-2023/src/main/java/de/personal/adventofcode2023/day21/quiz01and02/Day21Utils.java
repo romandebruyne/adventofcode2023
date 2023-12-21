@@ -1,4 +1,4 @@
-package de.personal.adventofcode2023.day21.quiz01;
+package de.personal.adventofcode2023.day21.quiz01and02;
 
 import java.io.BufferedReader;
 import java.io.IOException;
