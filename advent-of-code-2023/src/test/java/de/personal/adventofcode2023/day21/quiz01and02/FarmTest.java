@@ -18,18 +18,19 @@ public class FarmTest {
 	}
 	
 	@Test
-	public void testGetNumberOfGardenPlotsAfterXSteps() {
-		Assertions.assertEquals(16, this.testFarm.getNumberOfGardenPlotsAfterXSteps(6, true));
-		Assertions.assertEquals(3578, this.farm.getNumberOfGardenPlotsAfterXSteps(64, true));
+	public void testGetNumberOfGardenPlotsAfterXStepsPartOne() {
+		Assertions.assertEquals(16, this.testFarm.getNumberOfGardenPlotsAfterXSteps(6));
+		Assertions.assertEquals(3578, this.farm.getNumberOfGardenPlotsAfterXSteps(64));
 	}
 	
 	@Test
 	public void testGetNumberOfGardenPlotsAfterXStepsPartTwo() {
-		System.out.println(this.testFarm.getNumberOfGardenPlotsAfterXSteps(100, false));
+		List<Integer> maxSteps = Arrays.asList(6, 10, 50, 100);
+		List<Long> solutions = Arrays.asList(16L, 50L, 1594L, 6536L);
 		
-//		for (int maxStep : maxSteps) {
-//			System.out.println(this.testFarm.getNumberOfGardenPlotsAfterXSteps(maxStep, false));
-//			this.testFarm = new Farm("./res/aoc_day21_input.txt", 131);
-//		}
+		for (int i = 0; i < maxSteps.size(); i++) {
+			Assertions.assertEquals(solutions.get(i), this.testFarm.getNumberOfGardenPlotsAfterXSteps(maxSteps.get(i)));
+			this.testFarm = new Farm("./res/aoc_day21_testinput.txt", 11);
+		}
 	}
 }

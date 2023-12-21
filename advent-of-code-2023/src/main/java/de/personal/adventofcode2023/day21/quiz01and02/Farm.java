@@ -3,6 +3,7 @@ package de.personal.adventofcode2023.day21.quiz01and02;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Farm {
 	private static final int[] NORTH = {-1, 0}; 
@@ -32,30 +33,27 @@ public class Farm {
 		return startingPosition;
 	}
 	
-	public long getNumberOfGardenPlotsAfterXSteps(int maxSteps, boolean partOne) {
+	public long getNumberOfGardenPlotsAfterXSteps(int maxSteps) {
 		for (int i = 0; i < maxSteps; i++) {
-			moveGardenerByOneStep(partOne);
-			System.out.println(i);
+			moveGardenerByOneStep();
+			// System.out.println(i);
 		}
 		
 		return this.currentGardenerPositions.size();
 	}
 	
-	public void moveGardenerByOneStep(boolean partOne) {
+	public void moveGardenerByOneStep() {
 		List<int[]> copyOfCurrentGardenerPositions = new ArrayList<>(this.currentGardenerPositions);
 		int currentNumOfPositions = copyOfCurrentGardenerPositions.size();
 		
-		for (int i = 0; i < currentNumOfPositions; i++) {
-			if (partOne) {
-				getNextFeasiblePositionsPartOne(copyOfCurrentGardenerPositions.get(i));
-			} else {
-				getNextFeasiblePositionsPartTwo(copyOfCurrentGardenerPositions.get(i));
-			}
-		}
+		IntStream.range(0, currentNumOfPositions)
+				.mapToObj(i -> getNextFeasiblePositions(copyOfCurrentGardenerPositions.get(i)))
+				.flatMap(List::stream).forEach(this.currentGardenerPositions::add);
 	}
 	
-	public void getNextFeasiblePositionsPartOne(int[] currPosition) {
-		List<int[]> directions = Arrays.asList(NORTH, SOUTH, WEST, EAST);
+	public List<int[]> getNextFeasiblePositions(int[] currPosition) {
+		List<int[]> directions = Arrays.asList(NORTH, SOUTH, WEST, EAST),
+				nextFeasiblePositions = new ArrayList<>();
 		int[] gardenersNewPosition;
 		
 		for (int[] dir : directions) {
@@ -63,56 +61,40 @@ public class Farm {
 			gardenersNewPosition[0] = currPosition[0] + dir[0];
 			gardenersNewPosition[1] = currPosition[1] + dir[1];
 			
-			if (isInBound(gardenersNewPosition) && isGardenPlot(gardenersNewPosition)
-					&& !Day21Utils.positionIsInList(gardenersNewPosition, this.currentGardenerPositions)) {
-				this.currentGardenerPositions.add(gardenersNewPosition);
-			}
-		}
-		
-		this.currentGardenerPositions.remove(currPosition);
-	}
-	
-	public void getNextFeasiblePositionsPartTwo(int[] currPosition) {
-		List<int[]> directions = Arrays.asList(NORTH, SOUTH, WEST, EAST);
-		int[] gardenersNewPosition;
-		
-		for (int[] dir : directions) {
-			gardenersNewPosition = new int[2];
-			
-			gardenersNewPosition[0] = currPosition[0] >= 0 ? currPosition[0] + dir[0] : currPosition[0] - dir[0];
-			gardenersNewPosition[1] = currPosition[1] + dir[1];
-			
 			if (isGardenPlot(gardenersNewPosition)
 					&& !Day21Utils.positionIsInList(gardenersNewPosition, this.currentGardenerPositions)) {
-				this.currentGardenerPositions.add(gardenersNewPosition);
+				nextFeasiblePositions.add(gardenersNewPosition);
 			}
 		}
 		
 		this.currentGardenerPositions.remove(currPosition);
+		return nextFeasiblePositions;
 	}
-
+	
 	public int[] correctPosition(int[] position) {
 		int[] correctedPosition = {position[0], position[1]};
-		
-		if (position[0] < 0 || position[1] < 0) {
-			while (correctedPosition[0] < 0) {
-				correctedPosition[0] = correctedPosition[0] + this.structure.length;
+		if (position[0] < 0) {
+			if (correctedPosition[0] % this.structure.length == 0) {
+				correctedPosition[0] = 0;
+			} else {
+				correctedPosition[0] = (correctedPosition[0] % this.structure.length) + this.structure.length;
 			}
-			
-			while (correctedPosition[1] < 0) {
-				correctedPosition[1] = correctedPosition[1] + this.structure[0].length;
-			}
-			
 		}
 		
-		if (position[0] >= this.structure.length || position[1] >= this.structure[0].length) {
-			while (correctedPosition[0] >= this.structure.length) {
-				correctedPosition[0] = correctedPosition[0] - this.structure.length;
+		if (position[1] < 0) {
+			if (correctedPosition[1] % this.structure[0].length == 0) {
+				correctedPosition[1] = 0;
+			} else {
+				correctedPosition[1] = (correctedPosition[1] % this.structure[0].length) + this.structure[0].length;
 			}
+		}
 			
-			while (correctedPosition[1] >= this.structure[0].length) {
-				correctedPosition[1] = correctedPosition[1] - this.structure[0].length;
-			}
+		if (position[0] >= this.structure.length) {
+			correctedPosition[0] = correctedPosition[0] % this.structure.length;
+		}
+		
+		if (position[1] >= this.structure[0].length) {
+			correctedPosition[1] = correctedPosition[1] % this.structure[0].length;
 		}
 		
 		return correctedPosition;
