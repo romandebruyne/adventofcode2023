@@ -22,11 +22,11 @@ public class RecordUtilsTest {
 		List<Record> allRecords = RecordUtils.importAllData("./res/aoc_day12_input.txt");
 		Assertions.assertEquals(7771, RecordUtils.calculateSumOfFeasiblePermutation(allRecords));
 		
-//		List<Record> transformedRecordsTest = RecordUtils.transformAllRecords(allRecordsTest, 2);
-//		List<Record> transformedRecords = RecordUtils.transformAllRecords(allRecords, 2);
-//		transformedRecords.stream().map(s -> RecordUtils.getIndexesOfQuestionMarks(s.getParts()).size())
-//			.collect(Collectors.toList()).forEach(System.out::println);
-//		Assertions.assertEquals(525152, RecordUtils.calculateSumOfFeasiblePermutation(transformedRecordsTest));
+		/*
+		 * Code for part tw0 does not compile due to performance issues.
+		 */
+		// List<Record> transformedRecordsTest = RecordUtils.transformAllRecords(allRecordsTest, 5);
+		// Assertions.assertEquals(525152, RecordUtils.calculateSumOfFeasiblePermutation(transformedRecordsTest));
 	}
 	
 	@Test
