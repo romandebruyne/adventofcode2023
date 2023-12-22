@@ -32,5 +32,9 @@ public class FarmTest {
 			Assertions.assertEquals(solutions.get(i), this.testFarm.getNumberOfGardenPlotsAfterXSteps(maxSteps.get(i)));
 			this.testFarm = new Farm("./res/aoc_day21_testinput.txt", 11);
 		}
+		
+		/*
+		 * Code does not compile for larger step numbers, hence no solution for quiz 02.
+		 */
 	}
 }
