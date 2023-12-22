@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class DiggerTest {
@@ -16,10 +17,10 @@ public class DiggerTest {
 		
 	}
 	
+	@Disabled
 	@Test
 	public void testImport() {
 		this.testDigPlan = Digger.importDigPlan("./res/aoc_day18_testinput.txt", false);
-		
 		testDigPlan.forEach(s -> System.out.println(s.getDirection() + " " + s.getNumberOfMoves()));
 	}
 	
@@ -34,18 +35,6 @@ public class DiggerTest {
 		List<Point> edges = Digger.getEdges(this.digPlan);
 		Assertions.assertEquals(40131, Digger.getNumOfPointsInPolygon(edges));
 	}
-	
-//	@Test
-//	public void testGetNumOfPointsInPolygonPartTwo() {
-//		this.testDigPlan = Digger.importDigPlan("./res/aoc_day18_testinput.txt", false);
-//		this.digPlan = Digger.importDigPlan("./res/aoc_day18_input.txt", false);
-//		
-//		List<Point> testEdges = Digger.getEdges(this.testDigPlan);
-//		Assertions.assertEquals(62, Digger.getNumOfPointsInPolygon(testEdges));
-//		
-//		List<Point> edges = Digger.getEdges(this.digPlan);
-//		Assertions.assertEquals(40131, Digger.getNumOfPointsInPolygon(edges));
-//	}
 	
 	@Test
 	public void testGetNumOfPointsInPolygonWithShoeLaceAlgorithmPartOne() {
@@ -63,13 +52,14 @@ public class DiggerTest {
 	public void testGetNumOfPointsInPolygonWithShoeLaceAlgorithmPartTwo() {
 		this.testDigPlan = Digger.importDigPlan("./res/aoc_day18_testinput.txt", false);
 		this.digPlan = Digger.importDigPlan("./res/aoc_day18_input.txt", false);
-		
+
 		List<Point> testEdges = Digger.getEdges(this.testDigPlan);
 		Assertions.assertEquals(952408144115L, Digger.getNumOfPointsInPolygonWithShoeLaceAlgorithm(testEdges));
-		
-//		List<Point> edges = Digger.getEdges(this.digPlan);
-//		System.out.println(Digger.getNumOfPointsInPolygonWithShoeLaceAlgorithm(edges));
+
+		/*
+		 * Code does not compile for extremely large numbers, hence no solution to quiz 02.
+		 */
+		// List<Point> edges = Digger.getEdges(this.digPlan);
+		// System.out.println(Digger.getNumOfPointsInPolygonWithShoeLaceAlgorithm(edges));
 	}
-	
-	
 }

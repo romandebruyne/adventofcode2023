@@ -111,9 +111,6 @@ public class Digger {
 		int maxX = reshapedEdges.stream().map(e -> e.x).reduce(0, (a, b) -> Integer.max(a, b)),
 				maxY = reshapedEdges.stream().map(e -> e.y).reduce(0, (a, b) -> Integer.max(a, b));
 
-		System.out.println(maxY);
-		System.out.println(maxX);
-		
 		for (int y = 0; y <= maxY; y++) {
 			for (int x = 0; x <= maxX; x++) {
 				if (polygon.contains(new Point(x, y))) {
